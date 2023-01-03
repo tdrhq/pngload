@@ -6,6 +6,7 @@
   :homepage "https://github.com/bufferswap/pngload"
   :version "0.1.0"
   :encoding :utf-8
+  :defsystem-depends-on (:trivial-features)
   :depends-on
   (#:3bz
    #:alexandria
@@ -34,5 +35,8 @@
    (:file "metadata")
    (:file "png")
    (:file "octet-vector")
-   (:file "png-nommap" :if-feature (:or :mezzano :abcl))
-   (:file "png-mmap" :if-feature (:and (:not :mezzano) (:not :abcl)))))
+   ;; mmap is supported on windows, but causes issues with long files
+   ;; names. I'm not an expert, so just getting rid of it completely
+   ;; instead, just for my purposes.
+   (:file "png-nommap" :if-feature (:or :mezzano :abcl :windows))
+   (:file "png-mmap" :if-feature (:and (:not :mezzano) (:not :abcl) (:not :windows)))))
